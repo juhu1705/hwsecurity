@@ -36,10 +36,12 @@ public class JsonCollectedClientDataSerializer {
         try {
             JSONObject result = new JSONObject();
             result.put("type", clientData.type());
-            result.put("origin", clientData.origin());
             result.put("challenge", WebsafeBase64.encodeToString(clientData.challenge()));
+            result.put("origin", clientData.origin());
+            result.put("crossOrigin", "false");
             result.put("hashAlgorithm", clientData.hashAlgorithm());
-            return result.toString();
+            result.put("androidPackageName", clientData.androidPackageName());
+            return result.toString().replace("\\/", "/");
         } catch (JSONException e) {
             throw new IllegalArgumentException(e);
         }

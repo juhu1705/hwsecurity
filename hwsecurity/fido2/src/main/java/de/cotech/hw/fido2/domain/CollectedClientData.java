@@ -36,7 +36,9 @@ public abstract class CollectedClientData {
     public abstract String origin();
     public abstract String hashAlgorithm();
 
-    public static CollectedClientData create(String type, byte[] challenge, String origin, String hashAlgorithm) {
-        return new AutoValue_CollectedClientData(type, challenge, origin, hashAlgorithm);
+    public abstract String androidPackageName();
+
+    public static CollectedClientData create(String type, byte[] challenge, String origin, String hashAlgorithm, String androidPackageName) {
+        return new AutoValue_CollectedClientData(type, challenge, origin, hashAlgorithm, androidPackageName);
     }
 }

@@ -205,13 +205,15 @@ public class JsonWebauthnOptionsParser {
         List<PublicKeyCredentialDescriptor> allowCredentials = jsonToPubKeyKeyCredDescriptorList(publicKeyObject.optJSONArray("allowCredentials"));
         UserVerificationRequirement userVerification = UserVerificationRequirement.fromString(
                 publicKeyObject.optString("userVerification", null));
+        byte[] clientDataHash = jsonObjectOrArrayToByteArray(publicKeyObject.getJSONObject("clientDataHash"));
 
         return PublicKeyCredentialRequestOptions.create(
                 challenge,
                 timeout,
                 rpId,
                 allowCredentials,
-                userVerification
+                userVerification,
+                clientDataHash
         );
     }
 }

@@ -25,6 +25,8 @@
 package de.cotech.hw.fido2.internal.operations.ctap2;
 
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -148,10 +150,13 @@ public class AuthenticatorGetAssertionOperation extends
         String origin = credentialGet.origin();
         String rpId = relyingPartyIdUtils.determineRelyingPartyId(origin, options.rpId());
 
+        Log.d("HWSEC", "ORIGIN _ _ _ _ _ _: " + origin);
+
         CollectedClientData collectedClientData =
-                CollectedClientData.create(CLIENT_DATA_TYPE_GET, options.challenge(), origin, "SHA-256");
+                CollectedClientData.create(CLIENT_DATA_TYPE_GET, options.challenge(), origin, "SHA-256", credentialGet.androidPackageName());
         String clientDataJson = jsonCollectedClientDataSerializer.clientClientDataToJson(collectedClientData);
-        byte[] clientDataHash = HashUtil.sha256(clientDataJson);
+        Log.d("HWSEC", "CLIENTDATATOJSONRESULTS: " + clientDataJson);
+        byte[] clientDataHash = credentialGet.options().clientDataHash() != null ? credentialGet.options().clientDataHash() : HashUtil.sha256(clientDataJson);
 
         if (pinToken != null) {
             byte[] pinAuth = pinProtocolV1.calculatePinAuth(pinToken, clientDataHash);

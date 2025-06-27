@@ -71,16 +71,13 @@ afterEvaluate {
          * cotechMavenName=xxx
          * cotechMavenPassword=xxx
          */
-        if (project.hasProperty('cotechMavenName') && project.hasProperty('cotechMavenPassword')) {
-            println "Found cotechMavenName, cotechMavenPassword in gradle.properties!"
-
-            repositories {
-                maven {
-                    credentials {
-                        username cotechMavenName
-                        password cotechMavenPassword
-                    }
-                    url = "https://maven.cotech.de"
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/juhu1705/hwsecurity")
+                credentials {
+                    username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+                    password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
                 }
             }
         }

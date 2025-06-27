@@ -47,15 +47,18 @@ public abstract class PublicKeyCredentialRequestOptions implements Parcelable {
     public abstract List<PublicKeyCredentialDescriptor> allowCredentials();
     @Nullable
     public abstract UserVerificationRequirement userVerification();
+    @Nullable
+    public abstract byte[] clientDataHash();
 
     public static PublicKeyCredentialRequestOptions create(
             byte[] challenge,
             Long timeout,
             String rpId,
             List<PublicKeyCredentialDescriptor> allowCredentials,
-            UserVerificationRequirement userVerification
+            UserVerificationRequirement userVerification,
+            byte[] clientDataHash
     ) {
         return new AutoValue_PublicKeyCredentialRequestOptions(
-                challenge, timeout, rpId, allowCredentials, userVerification);
+                challenge, timeout, rpId, allowCredentials, userVerification, clientDataHash);
     }
 }

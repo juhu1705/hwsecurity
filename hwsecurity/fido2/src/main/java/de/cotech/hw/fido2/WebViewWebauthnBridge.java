@@ -246,7 +246,7 @@ public class WebViewWebauthnBridge {
 
     private void javascriptPublicKeyCredentialGet(PublicKeyCredentialRequestOptions options) {
         PublicKeyCredentialGet
-                credentialGetCommand = PublicKeyCredentialGet.create(currentOrigin, options);
+                credentialGetCommand = PublicKeyCredentialGet.create(currentOrigin, "", options);
 
         OnGetAssertionCallback onGetCredentialCallback = new OnGetAssertionCallback() {
             @Override

@@ -129,7 +129,7 @@ public class AuthenticatorMakeCredentialOperation extends
         rp = rp.withId(rpId);
 
         CollectedClientData collectedClientData =
-                CollectedClientData.create(CLIENT_DATA_TYPE_CREATE, options.challenge(), credentialCreate.origin(), "SHA-256");
+                CollectedClientData.create(CLIENT_DATA_TYPE_CREATE, options.challenge(), credentialCreate.origin(), "SHA-256", "");
         String clientDataJson = new JsonCollectedClientDataSerializer().clientClientDataToJson(collectedClientData);
         byte[] clientDataHash = HashUtil.sha256(clientDataJson);
 
