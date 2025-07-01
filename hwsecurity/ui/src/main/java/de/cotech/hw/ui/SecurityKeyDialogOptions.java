@@ -72,12 +72,15 @@ public abstract class SecurityKeyDialogOptions implements Parcelable {
 
     public abstract boolean getShowSdkLogo();
 
+    public abstract boolean getScramblePinLayout();
+
     public static Builder builder() {
         return new AutoValue_SecurityKeyDialogOptions.Builder()
                 .setPreventScreenshots(true)
                 .setShowReset(false)
                 .setAllowKeyboard(false)
                 .setShowSdkLogo(false)
+                .setScramblePinLayout(false)
                 .setPinMode(PinMode.PIN_INPUT)
                 .setFormFactor(FormFactor.SECURITY_KEY)
                 .setTheme(R.style.HwSecurity_Dialog);
@@ -123,6 +126,13 @@ public abstract class SecurityKeyDialogOptions implements Parcelable {
          * Default: false
          */
         public abstract Builder setShowReset(boolean showReset);
+
+        /**
+         * If the pin keys should be assigned randomly
+         * <p>
+         * Default: false
+         */
+        public abstract Builder setScramblePinLayout(boolean scramblePinLayout);
 
         /**
          * By default a PIN input is shown as most operations require a PIN authentication.

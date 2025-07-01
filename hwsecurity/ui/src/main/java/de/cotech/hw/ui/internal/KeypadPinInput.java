@@ -24,10 +24,12 @@
 
 package de.cotech.hw.ui.internal;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
@@ -37,10 +39,16 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.annotation.RestrictTo;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import de.cotech.hw.secrets.ByteSecret;
 import de.cotech.hw.ui.R;
@@ -51,6 +59,8 @@ public class KeypadPinInput extends PinInput {
 
     private Integer pinLength;
     private boolean fixedLength;
+
+    private boolean scramblePin;
 
     private ConstraintLayout view;
     private LinearLayout pinCirclesLayout;
@@ -67,15 +77,19 @@ public class KeypadPinInput extends PinInput {
 
     private PinInputCallback callback;
 
+    private int pinColor;
+
     public void setPinInputCallback(PinInputCallback callback) {
         this.callback = callback;
     }
 
-    public KeypadPinInput(@NonNull View view) {
+    @SuppressLint("DefaultLocale")
+    public KeypadPinInput(@NonNull View view, boolean scramblePin) {
         this.context = view.getContext();
         this.pinCirclesLayout = view.findViewById(R.id.pinCirclesLayout);
         this.keypadConfirm = view.findViewById(R.id.keypadButtonConfirm);
         this.view = (ConstraintLayout) view;
+        this.scramblePin = scramblePin;
 
         view.setOnKeyListener((v, keyCode, event) -> handleHardwareKeys(keyCode, event));
 
@@ -86,16 +100,21 @@ public class KeypadPinInput extends PinInput {
                 view.findViewById(R.id.keypadButtonNo7), view.findViewById(R.id.keypadButtonNo8),
                 view.findViewById(R.id.keypadButtonNo9)};
 
-        keypadButtons[0].setOnClickListener(v -> addPinNumber((byte) '0'));
-        keypadButtons[1].setOnClickListener(v -> addPinNumber((byte) '1'));
-        keypadButtons[2].setOnClickListener(v -> addPinNumber((byte) '2'));
-        keypadButtons[3].setOnClickListener(v -> addPinNumber((byte) '3'));
-        keypadButtons[4].setOnClickListener(v -> addPinNumber((byte) '4'));
-        keypadButtons[5].setOnClickListener(v -> addPinNumber((byte) '5'));
-        keypadButtons[6].setOnClickListener(v -> addPinNumber((byte) '6'));
-        keypadButtons[7].setOnClickListener(v -> addPinNumber((byte) '7'));
-        keypadButtons[8].setOnClickListener(v -> addPinNumber((byte) '8'));
-        keypadButtons[9].setOnClickListener(v -> addPinNumber((byte) '9'));
+        this.pinColor = keypadButtons[0].getTextColors().getDefaultColor();
+
+        List<Integer> positions = new ArrayList<>();
+        for (int i = 0; i <= 9; i++) {
+            positions.add(i);
+        }
+        if (scramblePin)
+            Collections.shuffle(positions);
+
+        for (int i = 0; i <= 9; i++) {
+            int pos = positions.get(i);
+            keypadButtons[i].setText(String.format("%d", pos));
+            keypadButtons[i].setOnClickListener(v -> addPinNumber((byte) (48 + pos))); // 48 = '0'
+        }
+
         view.findViewById(R.id.keypadButtonDelete).setOnClickListener(v -> deletePinNumber());
         view.findViewById(R.id.keypadButtonDelete).setOnLongClickListener(v -> {
             deleteAllPinNumbers();
@@ -148,11 +167,12 @@ public class KeypadPinInput extends PinInput {
         }
     }
 
+    @SuppressLint("ResourceType")
     private void setNumberButtonsEnabled(boolean enabled) {
         for (Button keypadButton : keypadButtons) {
             if (enabled) {
                 keypadButton.setEnabled(true);
-                keypadButton.setTextColor(Color.parseColor("#000000"));
+                keypadButton.setTextColor(pinColor);
             } else {
                 keypadButton.setEnabled(false);
                 keypadButton.setTextColor(Color.parseColor("#d3d3d3"));
@@ -172,6 +192,7 @@ public class KeypadPinInput extends PinInput {
         return view.getVisibility();
     }
 
+    @SuppressLint("DefaultLocale")
     public void reset(Integer pinLength) {
         this.pinLength = pinLength;
         fixedLength = pinLength != null;

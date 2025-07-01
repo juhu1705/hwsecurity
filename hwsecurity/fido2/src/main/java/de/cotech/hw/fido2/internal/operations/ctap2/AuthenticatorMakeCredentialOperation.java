@@ -129,9 +129,9 @@ public class AuthenticatorMakeCredentialOperation extends
         rp = rp.withId(rpId);
 
         CollectedClientData collectedClientData =
-                CollectedClientData.create(CLIENT_DATA_TYPE_CREATE, options.challenge(), credentialCreate.origin(), "SHA-256", "");
+                CollectedClientData.create(CLIENT_DATA_TYPE_CREATE, options.challenge(), credentialCreate.origin(), "SHA-256", credentialCreate.androidPackageName());
         String clientDataJson = new JsonCollectedClientDataSerializer().clientClientDataToJson(collectedClientData);
-        byte[] clientDataHash = HashUtil.sha256(clientDataJson);
+        byte[] clientDataHash = credentialCreate.options().clientDataHash() != null ? credentialCreate.options().clientDataHash() : HashUtil.sha256(clientDataJson);
 
         AuthenticatorMakeCredentialOptions authenticatorOptions;
         boolean requireResidentKey = options.authenticatorSelection().requireResidentKey();

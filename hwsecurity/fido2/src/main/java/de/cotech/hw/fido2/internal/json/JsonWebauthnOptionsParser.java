@@ -68,8 +68,14 @@ public class JsonWebauthnOptionsParser {
         AuthenticatorSelectionCriteria authenticatorSelection = jsonToAuthenticatorSelectionCriteria(
                 publicKeyObject.optJSONObject("authenticatorSelection"));
 
+        byte[] clientDataHash = null;
+
+        try {
+            clientDataHash = jsonObjectOrArrayToByteArray(publicKeyObject.getJSONObject("clientDataHash"));
+        } catch (JSONException ignored) {}
+
         return PublicKeyCredentialCreationOptions.create(rp, user, challenge, pubKeyCredParams, timeout,
-                authenticatorSelection, null, attestationConveyancePreference);
+                authenticatorSelection, null, attestationConveyancePreference, clientDataHash);
     }
 
     private List<PublicKeyCredentialParameters> jsonToPubKeyCredParamsList(
@@ -205,7 +211,11 @@ public class JsonWebauthnOptionsParser {
         List<PublicKeyCredentialDescriptor> allowCredentials = jsonToPubKeyKeyCredDescriptorList(publicKeyObject.optJSONArray("allowCredentials"));
         UserVerificationRequirement userVerification = UserVerificationRequirement.fromString(
                 publicKeyObject.optString("userVerification", null));
-        byte[] clientDataHash = jsonObjectOrArrayToByteArray(publicKeyObject.getJSONObject("clientDataHash"));
+        byte[] clientDataHash = null;
+
+        try {
+            clientDataHash = jsonObjectOrArrayToByteArray(publicKeyObject.getJSONObject("clientDataHash"));
+        } catch (JSONException ignored) {}
 
         return PublicKeyCredentialRequestOptions.create(
                 challenge,

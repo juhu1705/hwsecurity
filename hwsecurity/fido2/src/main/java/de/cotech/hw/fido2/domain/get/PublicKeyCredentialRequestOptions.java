@@ -48,6 +48,7 @@ public abstract class PublicKeyCredentialRequestOptions implements Parcelable {
     @Nullable
     public abstract UserVerificationRequirement userVerification();
     @Nullable
+    @SuppressWarnings("mutable")
     public abstract byte[] clientDataHash();
 
     public static PublicKeyCredentialRequestOptions create(

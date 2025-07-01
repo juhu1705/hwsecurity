@@ -4,4 +4,7 @@
     <attr name="hwSecuritySurfaceColor" format="color" />
     <attr name="hwSecurityErrorColor" format="color" />
     <attr name="hwSecuritySuccessColor" format="color" />
+    <attr name="hwSecurityBackgroundColor" format="color" />
+    <attr name="hwSecurityFilledKeyColor" format="color" />
+    <attr name="hwSecurityPinColor" format="color" />
 </resources>

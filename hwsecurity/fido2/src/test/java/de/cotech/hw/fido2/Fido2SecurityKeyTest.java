@@ -140,7 +140,7 @@ public class Fido2SecurityKeyTest {
             return;
         }
         byte[] challenge = WebsafeBase64.decode("GNxfVQfEVOoi9uU1W_jM-w");
-        PublicKeyCredentialCreate createParameters = PublicKeyCredentialCreate.create(ORIGIN,
+        PublicKeyCredentialCreate createParameters = PublicKeyCredentialCreate.create(ORIGIN, "",
             PublicKeyCredentialCreationOptions.create(
                     PublicKeyCredentialRpEntity.create("webauthn.hwsecurity.dev", "Acme", null),
                     PublicKeyCredentialUserEntity.create(USER_ID, USER_NAME, USER_DISPLAYNAME, USER_ICON),
@@ -149,7 +149,8 @@ public class Fido2SecurityKeyTest {
                     null,
                     AuthenticatorSelectionCriteria.create(null, false, UserVerificationRequirement.PREFERRED),
                     null,
-                    AttestationConveyancePreference.NONE
+                    AttestationConveyancePreference.NONE,
+                    null
             )
         );
         fakeFidoConnection.expect(MAKE_ATTESTATION_REQUEST, MAKE_ATTESTATION_RESPONSE);
@@ -235,7 +236,7 @@ public class Fido2SecurityKeyTest {
             return;
         }
         byte[] challenge = WebsafeBase64.decode("GNxfVQfEVOoi9uU1W_jM-w");
-        PublicKeyCredentialCreate createParameters = PublicKeyCredentialCreate.create(ORIGIN,
+        PublicKeyCredentialCreate createParameters = PublicKeyCredentialCreate.create(ORIGIN, "",
                 PublicKeyCredentialCreationOptions.create(
                         PublicKeyCredentialRpEntity.create("webauthn.hwsecurity.dev", "Acme", null),
                         PublicKeyCredentialUserEntity.create(USER_ID, USER_NAME, USER_DISPLAYNAME, USER_ICON),
@@ -244,7 +245,8 @@ public class Fido2SecurityKeyTest {
                         null,
                         AuthenticatorSelectionCriteria.create(null, false, UserVerificationRequirement.PREFERRED),
                         null,
-                        AttestationConveyancePreference.NONE
+                        AttestationConveyancePreference.NONE,
+                        null
                 )
         ).withClientPin("1234", false);
         fakeFidoConnectionWithPin.expect(CLIENT_PIN_GET_RETRIES, CLIENT_PIN_GET_RETRIES_RESPONSE_EIGHT);

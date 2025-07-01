@@ -370,7 +370,7 @@ public class WebauthnDialogFragment extends BottomSheetDialogFragment
 
         nfcFullscreenView = new NfcFullscreenView(view.findViewById(de.cotech.hw.ui.R.id.includeNfcFullscreen), innerBottomSheet);
 
-        keypadPinInput = new KeypadPinInput(view.findViewById(de.cotech.hw.ui.R.id.includeKeypadInput));
+        keypadPinInput = new KeypadPinInput(view.findViewById(de.cotech.hw.ui.R.id.includeKeypadInput), options.getScramblePinLayout());
         keypadPinInput.reset(null);
         keypadPinInput.setPinInputCallback(this);
 

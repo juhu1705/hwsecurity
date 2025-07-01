@@ -75,7 +75,7 @@ public class ConstructCredentialAlg {
         byte[] anonymizedAttestationObject =
                 cborAttestationObjectSerializer.serializeAttestationObject(makeCredentialResponse);
         return AuthenticatorAttestationResponse
-                .create(clientDataJSONResult, anonymizedAttestationObject);
+                .create(clientDataJSONResult, anonymizedAttestationObject, makeCredentialResponse.authData());
     }
 
     private byte[] findRawIdFromMakeCredentialResponse(
@@ -102,7 +102,7 @@ public class ConstructCredentialAlg {
         byte[] rawId = getRawIdFromAuthenticatorAttestationResponse(attestationObject);
         byte[] attestationObjectBytes = new CborAttestationObjectSerializer().serializeAttestationObject(attestationObject);
         AuthenticatorAttestationResponse response = AuthenticatorAttestationResponse.create(
-                credentialCreationData.clientDataJSONResult(), attestationObjectBytes);
+                credentialCreationData.clientDataJSONResult(), attestationObjectBytes, attestationObject.authData());
         return PublicKeyCredential.create(rawId, response);
     }
 

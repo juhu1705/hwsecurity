@@ -62,6 +62,8 @@ public abstract class WebauthnDialogOptions implements Parcelable {
 
     public abstract boolean getShowSdkLogo();
 
+    public abstract boolean getScramblePinLayout();
+
     // default values
     public static Builder builder() {
         return new AutoValue_WebauthnDialogOptions.Builder()
@@ -70,6 +72,7 @@ public abstract class WebauthnDialogOptions implements Parcelable {
                 .setAllowKeyboard(false)
                 .setAllowSkipPin(false)
                 .setShowSdkLogo(false)
+                .setScramblePinLayout(false)
                 .setFormFactor(FormFactor.SECURITY_KEY)
                 .setTheme(R.style.HwSecurity_Dialog);
     }
@@ -137,6 +140,13 @@ public abstract class WebauthnDialogOptions implements Parcelable {
          * Default: false
          */
         public abstract Builder setAllowSkipPin(boolean allowSkipPin);
+
+        /**
+         * If the pin keys should be assigned randomly
+         * <p>
+         * Default: false
+         */
+        public abstract Builder setScramblePinLayout(boolean scramblePinLayout);
 
         /**
          * Shows the Hardware Security SDK Logo with a clickable link

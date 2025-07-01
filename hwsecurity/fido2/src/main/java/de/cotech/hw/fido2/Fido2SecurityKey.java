@@ -113,7 +113,7 @@ public class Fido2SecurityKey extends SecurityKey {
         } catch (JSONException e) {
             throw new IOException("Invalid input parameters!", e);
         }
-        PublicKeyCredentialCreate create = PublicKeyCredentialCreate.create(origin, options);
+        PublicKeyCredentialCreate create = PublicKeyCredentialCreate.create(origin, "", options);
         PublicKeyCredential publicKeyCredential = webauthnCommand(create);
         return jsonPublicKeyCredentialSerializer.publicKeyCredentialToJsonString(publicKeyCredential);
     }
@@ -136,7 +136,7 @@ public class Fido2SecurityKey extends SecurityKey {
         } catch (JSONException e) {
             throw new IOException("Invalid input parameters!", e);
         }
-        PublicKeyCredentialCreate create = PublicKeyCredentialCreate.create(origin, options);
+        PublicKeyCredentialCreate create = PublicKeyCredentialCreate.create(origin, "", options);
         webauthnCommandAsync(create, webauthnResponseToJsonCallback(callback), handler, lifecycleOwner);
     }
 

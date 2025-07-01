@@ -35,16 +35,18 @@ import de.cotech.hw.fido2.internal.webauthn.WebauthnCommand;
 public abstract class PublicKeyCredentialCreate extends WebauthnCommand {
     public abstract String origin();
     public abstract PublicKeyCredentialCreationOptions options();
+
+    public abstract String androidPackageName();
     @Nullable
     public abstract String clientPin();
     public abstract boolean lastAttemptOk();
 
-    public static PublicKeyCredentialCreate create(String origin, PublicKeyCredentialCreationOptions options) {
-        return new AutoValue_PublicKeyCredentialCreate(origin, options, null, false);
+    public static PublicKeyCredentialCreate create(String origin, String androidPackageName, PublicKeyCredentialCreationOptions options) {
+        return new AutoValue_PublicKeyCredentialCreate(origin, options, androidPackageName, null, false);
     }
 
     @Override
     public PublicKeyCredentialCreate withClientPin(String clientPin, boolean lastAttemptOk) {
-        return new AutoValue_PublicKeyCredentialCreate(origin(), options(), clientPin, lastAttemptOk);
+        return new AutoValue_PublicKeyCredentialCreate(origin(), options(), androidPackageName(), clientPin, lastAttemptOk);
     }
 }

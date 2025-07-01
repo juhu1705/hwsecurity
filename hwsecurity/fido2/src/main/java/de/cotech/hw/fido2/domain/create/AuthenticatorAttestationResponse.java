@@ -34,8 +34,11 @@ public abstract class AuthenticatorAttestationResponse extends AuthenticatorResp
     @SuppressWarnings("mutable")
     public abstract byte[] attestationObject();
 
+    @SuppressWarnings("mutable")
+    public abstract byte[] authenticatorData();
+
     public static AuthenticatorAttestationResponse create(
-            byte[] clientData, byte[] attestationObject) {
-        return new AutoValue_AuthenticatorAttestationResponse(clientData, attestationObject);
+            byte[] clientData, byte[] attestationObject, byte[] authenticatorData) {
+        return new AutoValue_AuthenticatorAttestationResponse(clientData, attestationObject, authenticatorData);
     }
 }

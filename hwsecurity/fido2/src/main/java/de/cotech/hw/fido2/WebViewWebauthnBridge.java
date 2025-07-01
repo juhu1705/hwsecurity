@@ -295,7 +295,7 @@ public class WebViewWebauthnBridge {
 
     private void javascriptPublicKeyCredentialCreate(PublicKeyCredentialCreationOptions options) {
         PublicKeyCredentialCreate
-                credentialCreateCommand = PublicKeyCredentialCreate.create(currentOrigin, options);
+                credentialCreateCommand = PublicKeyCredentialCreate.create(currentOrigin, "", options);
 
         OnMakeCredentialCallback onMakeCredentialCallback = new OnMakeCredentialCallback() {
             @Override

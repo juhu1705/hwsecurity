@@ -109,7 +109,7 @@ public class AuthenticatorMakeCredentialCtap1Operation extends
         byte[] rawId = authenticatorData.attestedCredentialData().credentialId();
         byte[] attestationObjectBytes = new CborAttestationObjectSerializer().serializeAttestationObject(attestationObject);
         AuthenticatorAttestationResponse response = AuthenticatorAttestationResponse.create(
-                authenticatorMakeCredential.clientDataJson().getBytes(), attestationObjectBytes);
+                authenticatorMakeCredential.clientDataJson().getBytes(), attestationObjectBytes, attestationObject.authData());
         return PublicKeyCredential.create(rawId, response);
     }
 

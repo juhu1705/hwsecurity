@@ -51,6 +51,10 @@ public abstract class PublicKeyCredentialCreationOptions implements Parcelable {
     public abstract List<PublicKeyCredentialDescriptor> excludeCredentials();
     public abstract AttestationConveyancePreference attestation();
 
+    @SuppressWarnings("mutable")
+    @Nullable
+    public abstract byte[] clientDataHash();
+
     public static PublicKeyCredentialCreationOptions create(
             PublicKeyCredentialRpEntity rp,
             PublicKeyCredentialUserEntity user,
@@ -59,10 +63,11 @@ public abstract class PublicKeyCredentialCreationOptions implements Parcelable {
             @Nullable Long timeout,
             AuthenticatorSelectionCriteria authenticatorSelection,
             @Nullable List<PublicKeyCredentialDescriptor> excludeCredentials,
-            AttestationConveyancePreference attestation
+            AttestationConveyancePreference attestation,
+            byte[] clientDataHash
     ) {
         return new AutoValue_PublicKeyCredentialCreationOptions(
                 rp, user, challenge, pubKeyCredParams, timeout,
-                authenticatorSelection, excludeCredentials, attestation);
+                authenticatorSelection, excludeCredentials, attestation, clientDataHash);
     }
 }

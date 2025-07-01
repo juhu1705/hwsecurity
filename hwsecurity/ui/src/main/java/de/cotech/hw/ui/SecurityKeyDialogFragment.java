@@ -261,7 +261,7 @@ public abstract class SecurityKeyDialogFragment<T extends SecurityKey> extends B
         errorView = new ErrorView(view.findViewById(R.id.includeError));
         successView = new SuccessView(view.findViewById(R.id.includeSuccess));
 
-        keypadPinInput = new KeypadPinInput(view.findViewById(R.id.includeKeypadInput));
+        keypadPinInput = new KeypadPinInput(view.findViewById(R.id.includeKeypadInput), options.getScramblePinLayout());
         keypadPinInput.reset(options.getPinLength());
         keypadPinInput.setPinInputCallback(this);
 
