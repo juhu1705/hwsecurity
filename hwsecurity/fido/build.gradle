@@ -78,13 +78,18 @@ afterEvaluate {
          */
         repositories {
             maven {
-                name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/juhu1705/hwsecurity")
-                credentials {
-                    username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
-                    password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
-                }
+            name = "Gitea"
+            url = uri("https://git.noisruker.de/api/packages/juhu1705/maven")
+
+            credentials(HttpHeaderCredentials) {
+                name = "Authorization"
+                value = "token ${System.getenv("TOKEN")}"
             }
+
+            authentication {
+                header(HttpHeaderAuthentication)
+            }
+        }
         }
     }
 }
